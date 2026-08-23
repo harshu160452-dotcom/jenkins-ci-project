@@ -1,5 +1,8 @@
 pipeline {
-    agent { label 'Jenkins-Agent' }
+
+    agent {
+        label 'Jenkins-Agent'
+    }
 
     tools {
         jdk 'java21'
@@ -7,11 +10,14 @@ pipeline {
     }
 
     stages {
+
         stage('Git Checkout') {
             steps {
-                git branch: 'main',
-                    credentialsId: 'git-credentials',
-                    url: 'YOUR_GITHUB_REPO_URL'
+                git(
+                    branch: 'main',
+                    credentialsId: 'github',
+                    url: 'https://github.com/harshu160452-dotcom/jenkins-ci-project.git'
+                )
             }
         }
 
