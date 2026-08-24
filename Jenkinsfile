@@ -1,5 +1,8 @@
 pipeline {
-    agent { label 'Jenkins-Agent' }
+
+    agent {
+        label 'Jenkins-Agent'
+    }
 
     tools {
         jdk 'java21'
@@ -7,38 +10,37 @@ pipeline {
     }
 
     stages {
-        stage("Cleanup Workspace") {
+
+        stage('Cleanup Workspace') {
             steps {
                 cleanWs()
             }
         }
 
-        stage("Checkout from SCM") {
+        stage('Checkout from SCM') {
             steps {
-               git branch: 'main',
-    credentialsId: 'github',
-    url: 'https://github.com/harshu160452-dotcom/jenkins-ci-project.git'
+                git branch: 'main',
+                    credentialsId: 'github',
+                    url: 'https://github.com/harshu160452-dotcom/jenkins-ci-project.git'
             }
         }
 
-        stage("Build Application") {
+        stage('Build Application') {
             steps {
-                sh "mvn clean package"
+                sh 'mvn clean package'
             }
         }
 
-        stage("Test Application") {
+        stage('Test Application') {
             steps {
-                sh "mvn test"
+                sh 'mvn test'
             }
         }
 
-        stage("SonarQube Analysis") {
+        stage('SonarQube Analysis') {
             steps {
-                script {
-                    withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token1') {
-                        sh "mvn sonar:sonar"
-                    }
+                withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token1') {
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
                 }
             }
         }
