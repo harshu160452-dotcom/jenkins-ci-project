@@ -116,8 +116,8 @@ pipeline {
                 ) {
 
                     sh '''
-                        mvn sonar:sonar
-                    '''
+    mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+'''
                 }
             }
         }
